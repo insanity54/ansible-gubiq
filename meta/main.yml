@@ -1,0 +1,22 @@
+galaxy_info:
+  author: Chris Grimmett <chris@grimtech.net>
+  namespace: insanity54
+  role_name: gubiq
+  description: Golang implementation of the Ubiq protocol.
+  license: Unlicense
+  min_ansible_version: 2.2
+  platforms:
+    - name: Ubuntu
+      versions:
+        - jammy
+
+  galaxy_tags:
+    - ubq
+    - ubiq
+    - gubiq
+    - blockchain
+    - networking
+    - distributed
+    - p2p
+    - internet
+    - crypto
