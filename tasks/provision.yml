@@ -1,16 +1,5 @@
 ---
 
-- name: determine a valid hostname
-  set_fact:
-    hostonamu: "{{ inventory_hostname | regex_replace('_', '-') }}"
-
-- name: deboogey
-  debug:
-    var: hostonamu
-
-- name: set hostname
-  ansible.builtin.hostname:
-    name: "{{ hostonamu }}"
 
 - name: Ensure group gubiq exists
   ansible.builtin.group:
@@ -24,33 +13,6 @@
     shell: /bin/bash
     create_home: yes
 
-- name: Set Twitter api key in env
-  ansible.builtin.lineinfile:
-    dest: /root/.bashrc
-    line: "export TWITTER_API_KEY={{ lookup('env', 'TWITTER_API_KEY') }}"
-    state: present
-
-- name: Create partition for block storage
-  community.general.parted:
-    device: /dev/vdb
-    number: 1
-    state: present
-    label: gpt
-    fs_type: ext4
-
-- name: Create a ext4 filesystem 
-  community.general.filesystem:
-    fstype: ext4
-    dev: /dev/vdb1
-
-- name: mount block storage
-  ansible.posix.mount:
-    path: "{{ datadir }}"
-    src: /dev/vdb1
-    fstype: ext4
-    opts: defaults,noatime,nofail
-    state: mounted
-
 - name: set perms on datadir
   file:
     state: directory
@@ -59,22 +21,9 @@
     group: gubiq
     mode: '0755'
 
-- name: Install dependencies
-  become: yes
-  apt:
-    pkg: 
-      - python3
-      - python3-pip
-      - mg 
-      - git
-      - magic-wormhole
-      - mosh
-    state: present
-    update_cache: yes
-
 - name: create gubiq config dir
   file:
-    dest: /etc/gubiq/
+    dest: /usr/local/etc/gubiq/
     state: directory
     mode: '0755'
     owner: root
@@ -83,7 +32,7 @@
 - name: insert gubiq config
   template:
     src: gubiq.conf.toml.j2
-    dest: /etc/gubiq/gubiq.conf.toml
+    dest: /usr/local/etc/gubiq/gubiq.conf.toml
     mode: '0755'
     owner: gubiq
     group: gubiq
@@ -98,7 +47,7 @@
 - name: copy gubiq to bindir
   ansible.builtin.copy:
     src: /tmp/gubiq-linux-amd64
-    dest: /usr/bin/gubiq
+    dest: /usr/local/bin/gubiq
     owner: root
     group: root
     mode: '0755'

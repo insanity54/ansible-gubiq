@@ -1,7 +1,8 @@
 [Node]
 DataDir = "{{ datadir }}/"
 IPCPath = "{{ datadir }}/gubiq.ipc"
-WSHost = {{ ansible_default_ipv4 }}
+WSHost = "{{ ansible_default_ipv4.address }}"
 WSPort = 8546
 WSExposeAll = true
 WSOrigins = ["*"]
+
