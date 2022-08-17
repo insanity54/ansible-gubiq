@@ -1,0 +1,19 @@
+---
+
+- name: restart systemd-journald
+  ansible.builtin.systemd:
+    name: systemd-journald
+    state: restarted
+
+- name: start gubiq
+  ansible.builtin.systemd:
+    name: gubiq
+    enabled: yes
+    state: restarted
+
+- name: restart gubiq
+  ansible.builtin.systemd:
+    name: gubiq
+    state: restarted
+
+

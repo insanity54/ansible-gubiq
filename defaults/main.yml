@@ -1,0 +1,4 @@
+---
+
+task: provision
+datadir: /usr/local/lib/ubq
