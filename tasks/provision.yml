@@ -1,6 +1,6 @@
 ---
 
--- name: determine a valid hostname
+- name: determine a valid hostname
   set_fact:
     hostonamu: "{{ inventory_hostname | regex_replace('_', '-') }}"
 
